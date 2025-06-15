@@ -18,10 +18,10 @@ export const GameUI: React.FC<GameUIProps> = ({
       <div className='absolute inset-0 h-[80vh] mx-auto border-2 border-gray-700 rounded-lg shadow-2xl bg-black bg-opacity-75 backdrop-blur-sm flex items-center justify-center'>
         <div className='text-center text-white flex flex-col justify-center items-center gap-y-4'>
           <h1 className='text-6xl min-h-20 font-bold bg-gradient-to-r from-green-400 to-blue-500 bg-clip-text text-transparent'>
-            Block Dodge
+            Block Dash
           </h1>
           <p className='text-xl text-gray-300 max-w-md mx-auto'>
-            Use arrow keys to dodge falling red blocks. Each block that passes
+            Use arrow keys to dash falling red blocks. Each block that passes
             increases your score!
           </p>
           <div className='flex justify-center items-center space-x-4 text-gray-400'>

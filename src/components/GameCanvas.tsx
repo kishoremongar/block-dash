@@ -6,6 +6,7 @@ interface GameCanvasProps {
   gameState: GameState;
   onScoreUpdate: (score: number) => void;
   onGameOver: () => void;
+  onCanvasReady: () => void;
 }
 
 const GAME_CONFIG: GameConfig = {
@@ -26,6 +27,7 @@ export const GameCanvas: React.FC<GameCanvasProps> = ({
   gameState,
   onScoreUpdate,
   onGameOver,
+  onCanvasReady,
 }) => {
   const canvasRef = useRef<HTMLDivElement>(null);
   const appRef = useRef<Application | null>(null);
@@ -210,6 +212,8 @@ export const GameCanvas: React.FC<GameCanvasProps> = ({
         const player = createPlayer();
         playerRef.current = player;
         app.stage.addChild(player);
+
+        onCanvasReady();
       } catch (error) {
         console.error('Error initializing PixiJS:', error);
         appRef.current = null;
@@ -310,12 +314,16 @@ export const GameCanvas: React.FC<GameCanvasProps> = ({
         className='border-2 border-gray-700 rounded-lg shadow-2xl mx-auto'
         style={{ lineHeight: 0, width: '100%', height: '100%' }}
       />
-      <div className='absolute top-4 left-4 text-white font-bold text-xl bg-black bg-opacity-50 px-3 py-1 rounded'>
-        Score: {gameState.score}
-      </div>
-      <div className='absolute top-16 left-4 text-white font-bold text-lg bg-black bg-opacity-50 px-3 py-1 rounded'>
-        High Score: {gameState.highScore}
-      </div>
+      {gameState.isPlaying && !gameState.isGameOver && (
+        <>
+          <div className='absolute top-4 left-4 text-white font-bold text-xl bg-black bg-opacity-50 px-3 py-1 rounded'>
+            Score: {gameState.score}
+          </div>
+          <div className='absolute top-16 left-4 text-white font-bold text-lg bg-black bg-opacity-50 px-3 py-1 rounded'>
+            High Score: {gameState.highScore}
+          </div>
+        </>
+      )}
     </div>
   );
 };

@@ -6,6 +6,7 @@ import { useLocalStorage } from './hooks/useLocalStorage';
 
 function App() {
   const [highScore, setHighScore] = useLocalStorage('blockDodgeHighScore', 0);
+  const [canvasReady, setCanvasReady] = useState(false);
   const [gameState, setGameState] = useState<GameState>({
     score: 0,
     isGameOver: false,
@@ -56,6 +57,11 @@ function App() {
     }));
   }, []);
 
+  // Called when GameCanvas signals it is ready
+  const handleCanvasReady = useCallback(() => {
+    setCanvasReady(true);
+  }, []);
+
   return (
     <div className='min-h-screen bg-gradient-to-br from-purple-900 via-blue-900 to-indigo-900 flex justify-center overflow-hidden p-4'>
       <div className='relative'>
@@ -63,12 +69,15 @@ function App() {
           gameState={gameState}
           onScoreUpdate={handleScoreUpdate}
           onGameOver={handleGameOver}
+          onCanvasReady={handleCanvasReady}
         />
-        <GameUI
-          gameState={gameState}
-          onStartGame={handleStartGame}
-          onRestartGame={handleRestartGame}
-        />
+        {canvasReady && (
+          <GameUI
+            gameState={gameState}
+            onStartGame={handleStartGame}
+            onRestartGame={handleRestartGame}
+          />
+        )}
       </div>
     </div>
   );
